@@ -10,11 +10,13 @@ import {
 } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import { Lightbulb, Menu, X } from "lucide-react";
+import { it } from "node:test";
 
 export function Navbar() {
   const { userId } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const MenuItems = ["Features", "Pricing", "Docs"];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,9 +46,57 @@ export function Navbar() {
             className="sm:hidden text-white focus:outline"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen?<X className="w-6 h-6"/>:<Menu className="w-6 h-6"/>}
+            {isMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
           </button>
-          
+          <div
+            className={`w-full sm:w-auto ${
+              isMenuOpen ? "block" : "hidden"
+            } sm:block mt-4 sm:mt-0`}
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-8">
+              {MenuItems.map((item) => (
+                <Link key={item} href={`/${item.toLocaleLowerCase()}`}
+                className="text-gray-200 hover:text-white transition-colors py-2 sm:py-0 relative group"
+                >{item}
+                <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform sm:origin-center origin-left"></span>
+                </Link>
+              ))}
+              {userId &&(
+                <Link href={'/dashboard'}
+                className="text-gray-200 hover:text-white transition-colors py-2 sm:py-0 relative group"
+                >
+                Dashboard
+                <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform sm:origin-center origin-left"></span>
+                </Link>
+              )}
+
+<SignedOut>
+                <SignInButton mode="modal">
+                  <button className="text-gray-300 hover:text-white transition-colors mt-2 sm:mt-0">
+                    Sign In
+                  </button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full transition-colors mt-2 sm:mt-0">
+                    Sign Up
+                  </button>
+                </SignUpButton>
+              </SignedOut>
+              <SignedIn>
+                <UserButton
+                  appearance={{
+                    elements: {
+                      avatarBox: "w-10 h-10",
+                    },
+                  }}
+                />
+              </SignedIn>
+            </div>
+          </div>
         </div>
       </nav>
     </header>
