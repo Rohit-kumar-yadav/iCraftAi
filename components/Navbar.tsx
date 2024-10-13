@@ -10,7 +10,7 @@ import {
 } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import { Lightbulb, Menu, X } from "lucide-react";
-import { it } from "node:test";
+
 
 export function Navbar() {
   const { userId } = useAuth();
@@ -59,22 +59,26 @@ export function Navbar() {
           >
             <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-8">
               {MenuItems.map((item) => (
-                <Link key={item} href={`/${item.toLocaleLowerCase()}`}
-                className="text-gray-200 hover:text-white transition-colors py-2 sm:py-0 relative group"
-                >{item}
-                <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform sm:origin-center origin-left"></span>
+                <Link
+                  key={item}
+                  href={`/${item.toLocaleLowerCase()}`}
+                  className="text-gray-200 hover:text-white transition-colors py-2 sm:py-0 relative group"
+                >
+                  {item}
+                  <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform sm:origin-center origin-left"></span>
                 </Link>
               ))}
-              {userId &&(
-                <Link href={'/dashboard'}
-                className="text-gray-200 hover:text-white transition-colors py-2 sm:py-0 relative group"
+              {userId && (
+                <Link
+                  href={"/dashboard"}
+                  className="text-gray-200 hover:text-white transition-colors py-2 sm:py-0 relative group"
                 >
-                Dashboard
-                <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform sm:origin-center origin-left"></span>
+                  Dashboard
+                  <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform sm:origin-center origin-left"></span>
                 </Link>
               )}
 
-<SignedOut>
+              <SignedOut>
                 <SignInButton mode="modal">
                   <button className="text-gray-300 hover:text-white transition-colors mt-2 sm:mt-0">
                     Sign In
