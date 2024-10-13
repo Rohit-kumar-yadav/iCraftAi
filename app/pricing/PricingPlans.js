@@ -1,6 +1,6 @@
 export const PricingPlans = [
     {
-      name: "Trial Plan",
+      name: "Basic Plan",
       price: "4.99",
       price_Id:"price_1Q9PbmKOEWZkGPCt8K5YS2Q8",
       features: [
@@ -10,7 +10,7 @@ export const PricingPlans = [
       ],
     },
     {
-      name: "Basic Plan",
+      name: "Premium Plan",
       price: "9.99",
       price_Id:"price_1Q9Ph5KOEWZkGPCtq8LXd9dd",
       features: [
@@ -34,7 +34,7 @@ export const PricingPlans = [
     },
     {
       name: "Enterprise Plan",
-      price: "Custom Pricing",
+      price: "Custom",
       price_Id:"price_4",
       features: [
         "Unlimited AI-generated posts",

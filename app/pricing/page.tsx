@@ -12,7 +12,7 @@ export default function PricingPage() {
     const { isSignedIn, user } = useUser();
     const [isLoading, setIsLoading] = useState(false);
   
-    const handleSubscribe = async (priceId: string) => {
+    const handleSubscribe = async (price_Id: string) => {
       if (!isSignedIn) {
         return;
       }
@@ -25,7 +25,7 @@ export default function PricingPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            priceId,
+            price_Id,
             userId: user?.id,
           }),
         });

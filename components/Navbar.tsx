@@ -70,7 +70,7 @@ export function Navbar() {
               ))}
               {userId && (
                 <Link
-                  href={"/dashboard"}
+                  href={"/generate"}
                   className="text-gray-200 hover:text-white transition-colors py-2 sm:py-0 relative group"
                 >
                   Dashboard

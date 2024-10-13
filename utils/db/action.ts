@@ -1,7 +1,7 @@
 import { db } from "./dbconfig";
-import { eq, sql, desc } from "drizzle-orm";
-import { Users, Subscriptions, GeneratedContent } from "./schema";
-import { User } from "lucide-react";
+import { eq} from "drizzle-orm";
+import { Users } from "./schema";
+
 import { sendWelcomeEmail } from "../mailtrap";
 
 export async function createOrUpdateUser(

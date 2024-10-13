@@ -7,9 +7,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(req: Request) {
   try {
-    const { priceId, userId } = await req.json();
+    const { price_Id, userId } = await req.json();
 
-    if (!priceId || userId) {
+    if (!price_Id || userId) {
       return NextResponse.json(
         {
           error: "Missing priceId/userId",
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       payment_method_types: ["card"],
       line_items: [
         {
-          price: priceId,
+          price: price_Id,
           quantity: 1,
         },
       ],
