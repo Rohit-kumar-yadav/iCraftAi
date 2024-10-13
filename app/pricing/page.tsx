@@ -8,9 +8,11 @@ import { CheckIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { loadStripe } from "@stripe/stripe-js";
 
+
 export default function PricingPage() {
     const { isSignedIn, user } = useUser();
     const [isLoading, setIsLoading] = useState(false);
+   
   
     const handleSubscribe = async (price_Id: string) => {
       if (!isSignedIn) {
@@ -44,6 +46,7 @@ export default function PricingPage() {
         await stripe.redirectToCheckout({ sessionId });
       } catch (error) {
         console.error("Error creating checkout session:", error);
+       
       } finally {
         setIsLoading(false);
       }
@@ -83,7 +86,7 @@ export default function PricingPage() {
                   ))}
                 </ul>
                 <Button
-                  onClick={() => plan.price_Id&& handleSubscribe(plan.price_Id)}
+                  onClick={() => plan.price_Id && handleSubscribe(plan.price_Id)}
                   disabled={isLoading || !plan.price_Id}
                   className="w-full bg-white text-black hover:bg-gray-200"
                 >
