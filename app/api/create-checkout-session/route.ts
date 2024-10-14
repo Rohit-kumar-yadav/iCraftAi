@@ -6,8 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 export async function POST(req: Request) {
-  console.log(req);
-  
+
   try {
     const { price_Id, userId } = await req.json();
 
