@@ -73,6 +73,35 @@ export default function GenerateContent() {
   const [selectedHistoryItem, setSelectedHistoryItem] =
     useState<HistoryItem | null>(null);
 
+    const fetchUserPoints = async () => {
+      if (user?.id) {
+        console.log("Fetching points for user:", user.id);
+        const points = await getUserPoints(user.id);
+        console.log("Fetched points:", points);
+        setUserPoints(points);
+        if (points === 0) {
+          console.log("User has 0 points. Attempting to create/update user.");
+          const updatedUser = await createOrUpdateUser(
+            user.id,
+            user.emailAddresses[0].emailAddress,
+            user.fullName || ""
+          );
+  
+          // Check if updatedUser is valid
+          if (updatedUser) {
+            console.log("Updated user:", updatedUser);
+            setUserPoints(updatedUser.points);
+          }
+        }
+      }
+    };
+
+    const fetchContentHistory = async () => {
+      if (user?.id) {
+        const contentHistory = await getGeneratedContentHistory(user.id);
+        setHistory(contentHistory);
+      }
+    };
   useEffect(() => {
     if (!apiKey) {
       console.error("Gemini API key is not set");
@@ -87,37 +116,11 @@ export default function GenerateContent() {
       fetchUserPoints();
       fetchContentHistory();
     }
-  }, [isLoaded, isSignedIn, user, router]);
+  }, [isLoaded, isSignedIn, user, router]); // Added dependencies
 
-  const fetchUserPoints = async () => {
-    if (user?.id) {
-      console.log("Fetching points for user:", user.id);
-      const points = await getUserPoints(user.id);
-      console.log("Fetched points:", points);
-      setUserPoints(points);
-      if (points === 0) {
-        console.log("User has 0 points. Attempting to create/update user.");
-        const updatedUser = await createOrUpdateUser(
-          user.id,
-          user.emailAddresses[0].emailAddress,
-          user.fullName || ""
-        );
+  
 
-        // Check if updatedUser is valid
-        if (updatedUser) {
-          console.log("Updated user:", updatedUser);
-          setUserPoints(updatedUser.points);
-        }
-      }
-    }
-  };
-
-  const fetchContentHistory = async () => {
-    if (user?.id) {
-      const contentHistory = await getGeneratedContentHistory(user.id);
-      setHistory(contentHistory);
-    }
-  };
+ 
 
   const handleGenerate = async () => {
     if (
