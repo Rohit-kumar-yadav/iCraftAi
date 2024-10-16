@@ -1,8 +1,22 @@
 import { db } from "./dbconfig";
-import { eq,sql} from "drizzle-orm";
-import { Subscriptions, Users } from "./schema";
+import { Users, Subscriptions, GeneratedContent } from "./schema";
+import { eq, sql, and, desc } from "drizzle-orm";
+import { sendWelcomeEmail, initMailtrap } from "../mailtrap";
 
-import { sendWelcomeEmail } from "../mailtrap";
+export async function updateUserPoints(userId: string, points: number) {
+  try {
+    const [updatedUser] = await db
+      .update(Users)
+      .set({ points: sql`${Users.points} + ${points}` })
+      .where(eq(Users.stripeCustomerId, userId))
+      .returning()
+      .execute();
+    return updatedUser;
+  } catch (error) {
+    console.error("Error updating user points:", error);
+    return null;
+  }
+}
 
 export async function getUserPoints(userId: string) {
   try {
@@ -21,21 +35,6 @@ export async function getUserPoints(userId: string) {
   } catch (error) {
     console.error("Error fetching user points:", error);
     return 0;
-  }
-}
-
-export async function updateUserPoints(userId: string, points: number) {
-  try {
-    const [updatedUser] = await db
-      .update(Users)
-      .set({ points: sql`${Users.points} + ${points}` })
-      .where(eq(Users.stripeCustomerId, userId))
-      .returning()
-      .execute();
-    return updatedUser;
-  } catch (error) {
-    console.error("Error updating user points:", error);
-    return null;
   }
 }
 
@@ -102,36 +101,115 @@ export async function createOrUpdateSubscription(
   }
 }
 
+export async function saveGeneratedContent(
+  userId: string,
+  content: string,
+  prompt: string,
+  contentType: string
+) {
+  try {
+    const [savedContent] = await db
+      .insert(GeneratedContent)
+      .values({
+        userId: sql`(SELECT id FROM ${Users} WHERE stripe_customer_id = ${userId})`,
+        content,
+        prompt,
+        contentType,
+      })
+      .returning()
+      .execute();
+    return savedContent;
+  } catch (error) {
+    console.error("Error saving generated content:", error);
+    return null;
+  }
+}
+
+export async function getGeneratedContentHistory(
+  userId: string,
+  limit: number = 10
+) {
+  try {
+    const history = await db
+      .select({
+        id: GeneratedContent.id,
+        content: GeneratedContent.content,
+        prompt: GeneratedContent.prompt,
+        contentType: GeneratedContent.contentType,
+        createdAt: GeneratedContent.createdAt,
+      })
+      .from(GeneratedContent)
+      .where(
+        eq(
+          GeneratedContent.userId,
+          sql`(SELECT id FROM ${Users} WHERE stripe_customer_id = ${userId})`
+        )
+      )
+      .orderBy(desc(GeneratedContent.createdAt))
+      .limit(limit)
+      .execute();
+    return history;
+  } catch (error) {
+    console.error("Error fetching generated content history:", error);
+    return [];
+  }
+}
+
 export async function createOrUpdateUser(
   clerkUserId: string,
   email: string,
   name: string
 ) {
   try {
+    console.log("Creating or updating user:", clerkUserId, email, name);
+
     const [existingUser] = await db
       .select()
       .from(Users)
       .where(eq(Users.stripeCustomerId, clerkUserId))
       .limit(1)
       .execute();
+
     if (existingUser) {
-      const [updateUser] = await db
+      const [updatedUser] = await db
         .update(Users)
         .set({ name, email })
         .where(eq(Users.stripeCustomerId, clerkUserId))
         .returning()
         .execute();
+      console.log("Updated user:", updatedUser);
+      return updatedUser;
     }
+
+    const [userWithEmail] = await db
+      .select()
+      .from(Users)
+      .where(eq(Users.email, email))
+      .limit(1)
+      .execute();
+
+    if (userWithEmail) {
+      const [updatedUser] = await db
+        .update(Users)
+        .set({ name, stripeCustomerId: clerkUserId })
+        .where(eq(Users.email, email))
+        .returning()
+        .execute();
+      console.log("Updated user:", updatedUser);
+      sendWelcomeEmail(email, name);
+      return updatedUser;
+    }
+
     const [newUser] = await db
       .insert(Users)
       .values({ email, name, stripeCustomerId: clerkUserId, points: 50 })
       .returning()
       .execute();
-    console.log("new user created", newUser);
-    
-    // send welcome email for new user
-    sendWelcomeEmail(email,name)
+    console.log("New user created:", newUser);
+    sendWelcomeEmail(email, name);
+    return newUser;
   } catch (error) {
     console.error("Error creating or updating user:", error);
+    return null;
   }
 }
