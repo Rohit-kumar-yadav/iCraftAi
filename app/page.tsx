@@ -157,7 +157,7 @@ export default function Home() {
             </svg>
           </div>
           <h2 className="text-4xl font-bold mb-8 text-white">
-            Ready to revolutionize your social media strategy?
+          Get set to supercharge your social media strategy like never before!
           </h2>
           {userId ? (
             <Button
@@ -165,13 +165,13 @@ export default function Home() {
               className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105"
             >
               <Link href="/generate">
-                Generate Content Now <ArrowRightIcon className="ml-2 h-5 w-5" />
+                Generate Now <ArrowRightIcon className="ml-2 h-5 w-5" />
               </Link>
             </Button>
           ) : (
             <SignUpButton mode="modal">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105">
-                Get Started Free <ArrowRightIcon className="ml-2 h-5 w-5" />
+                Get Started for Free <ArrowRightIcon className="ml-2 h-5 w-5" />
               </Button>
             </SignUpButton>
           )}

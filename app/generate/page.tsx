@@ -120,8 +120,6 @@ export default function GenerateContent() {
 
   
 
- 
-
   const handleGenerate = async () => {
     if (
       !genAI ||
@@ -140,7 +138,7 @@ export default function GenerateContent() {
       let promptText = `Generate ${contentType} content about "${prompt}".`;
       if (contentType === "twitter") {
         promptText +=
-          " Provide a thread of 5 tweets, each under 280 characters.";
+          " Provide a thread of 5 tweets, each under 280 characters,also add some emoji.";
       }
 
       let imagePart: Part | null = null;
