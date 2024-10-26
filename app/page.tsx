@@ -19,7 +19,7 @@ export default function Home() {
   const { userId } = auth();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-gray-100 overflow-hidden pt-20">
+    <div className="divide-y divide-blue-200 min-h-screen bg-gradient-to-b from-black to-gray-900 text-gray-100 overflow-hidden pt-20">
       <Navbar />
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Decorative elements */}
@@ -37,18 +37,17 @@ export default function Home() {
         <div className="text-center py-20 lg:py-32 relative">
           <RocketIcon className="w-16 h-16 text-purple-500 mx-auto mb-6 animate-bounce" />
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
-            AI-Powered Social Media Content Generator
+          Your All-in-One AI Solution for Social Media Content
           </h1>
           <p className="text-xl mb-10 text-gray-300 max-w-2xl mx-auto">
-            Create engaging content for Twitter, Instagram, and LinkedIn with
-            cutting-edge AI technology.
+          Elevate your social media presence on Twitter, Instagram, LinkedIn, and YouTube with AI-powered content creation.
           </p>
           <div className="flex justify-center space-x-4">
             <Button
               asChild
               className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105"
             >
-              <Link href="/generate">Start Creating</Link>
+              <Link href="/generate">Start Generating</Link>
             </Button>
             <Button
               asChild
@@ -59,22 +58,22 @@ export default function Home() {
           </div>
         </div>
         {/* Features Section */}
-        <div className="py-20" id="features">
+        <div className="py-10" id="features">
           <h2 className="text-3xl font-bold mb-16 text-center text-white">
-            Supercharge Your Social Media Presence
+          Transform Your Social Media Game
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {Sconfig.map((feature, index) => (
               <div
                 key={index}
-                className="p-8 rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-1"
+                className="p-8 rounded-2xl text-pretty bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-1"
               >
                 <div className="flex flex-col items-center text-center">
                   {feature.icon}
-                  <h3 className="text-2xl font-semibold mb-3 text-white">
+                  <h4 className="text-2xl font-semibold mb-3 text-white">
                     {feature.title}
-                  </h3>
-                  <p className="text-gray-300">{feature.description}</p>
+                  </h4>
+                  <p className="text-gray-300 ">{feature.description}</p>
                 </div>
               </div>
             ))}

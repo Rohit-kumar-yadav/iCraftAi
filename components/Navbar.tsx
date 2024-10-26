@@ -11,12 +11,11 @@ import {
 import { useState, useEffect } from "react";
 import { Lightbulb, Menu, X } from "lucide-react";
 
-
 export function Navbar() {
   const { userId } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const MenuItems = ["Features", "Pricing", "Docs"];
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,16 +57,24 @@ export function Navbar() {
             } sm:block mt-4 sm:mt-0`}
           >
             <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-8">
-              {MenuItems.map((item) => (
+              {
                 <Link
-                  key={item}
-                  href={`/${item.toLocaleLowerCase()}`}
+                  href={'#features'}
                   className="text-gray-200 hover:text-white transition-colors py-2 sm:py-0 relative group"
                 >
-                  {item}
+                  Features
                   <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform sm:origin-center origin-left"></span>
                 </Link>
-              ))}
+              }
+              {
+                <Link
+                  href={'/pricing'}
+                  className="text-gray-200 hover:text-white transition-colors py-2 sm:py-0 relative group"
+                >
+                  Pricing
+                  <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform sm:origin-center origin-left"></span>
+                </Link>
+              }
               {userId && (
                 <Link
                   href={"/generate"}
