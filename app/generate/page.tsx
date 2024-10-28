@@ -20,6 +20,7 @@ import {
   Clock,
   Zap,
 } from "lucide-react";
+import { CiYoutube } from "react-icons/ci";
 
 import { GoogleGenerativeAI, Part } from "@google/generative-ai";
 import ReactMarkdown from "react-markdown";
@@ -38,6 +39,7 @@ import { InstagramMock } from "@/components/social-mocks/InstagramMock";
 import { TwitterMock } from "@/components/social-mocks/TwitterMock";
 import { LinkedInMock } from "@/components/social-mocks/LinkedInMock";
 import Link from "next/link";
+import { YoutubeMock } from "@/components/social-mocks/YoutubeMock";
 
 const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
@@ -46,6 +48,7 @@ const contentTypes = [
   { value: "twitter", label: "Twitter Thread" },
   { value: "instagram", label: "Instagram Caption" },
   { value: "linkedin", label: "LinkedIn Post" },
+  { value: "youtube", label: "Youtube Script" },
 ];
 
 const MAX_TWEET_LENGTH = 500;
@@ -238,6 +241,8 @@ export default function GenerateContent() {
         return <InstagramMock content={generatedContent[0]} />;
       case "linkedin":
         return <LinkedInMock content={generatedContent[0]} />;
+      case "youtube":
+        return <YoutubeMock content={generatedContent[0]} />;
       default:
         return null;
     }
@@ -364,7 +369,11 @@ export default function GenerateContent() {
                           )}
                           {type.value === "linkedin" && (
                             <Linkedin className="mr-2 h-4 w-4 text-blue-600" />
-                          )}
+                          )}{
+                            type.value === "youtube" &&(
+                              <CiYoutube className="mr-2 h-4 w-4 text-red-600" />
+                            )
+                          }
                           {type.label}
                         </div>
                       </SelectItem>

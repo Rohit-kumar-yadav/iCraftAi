@@ -11,8 +11,8 @@ export const TwitterMock: React.FC<TwitterMockProps> = ({ content }) => {
       <div className="flex items-center mb-3">
         <div className="w-12 h-12 bg-gray-300 rounded-full mr-3"></div>
         <div>
-          <p className="font-bold">Your Name</p>
-          <p className="text-gray-500">@yourhandle</p>
+          <p className="font-bold">RDX</p>
+          <p className="text-gray-500">@roiet47</p>
         </div>
       </div>
       {content.map((tweet, index) => (

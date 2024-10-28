@@ -59,7 +59,7 @@ export function Navbar() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-8">
               {
                 <Link
-                  href={'#features'}
+                  href={'/#features'}
                   className="text-gray-200 hover:text-white transition-colors py-2 sm:py-0 relative group"
                 >
                   Features
