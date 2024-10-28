@@ -13,7 +13,7 @@ export const Users = pgTable("users", {
   stripeCustomerId: text("stripe_customer_id").unique(),
   email: text("email").notNull().unique(),
   name: text("name"),
-  points: integer("points").default(50),
+  points: integer("points").default(30),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

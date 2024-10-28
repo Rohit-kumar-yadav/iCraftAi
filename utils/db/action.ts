@@ -202,7 +202,7 @@ export async function createOrUpdateUser(
 
     const [newUser] = await db
       .insert(Users)
-      .values({ email, name, stripeCustomerId: clerkUserId, points: 50 })
+      .values({ email, name, stripeCustomerId: clerkUserId, points: 30 })
       .returning()
       .execute();
     console.log("New user created:", newUser);
