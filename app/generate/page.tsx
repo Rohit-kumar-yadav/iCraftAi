@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +20,7 @@ import {
   Clock,
   Zap,
 } from "lucide-react";
+
 import { CiYoutube } from "react-icons/ci";
 
 import { GoogleGenerativeAI, Part } from "@google/generative-ai";
@@ -142,6 +143,16 @@ export default function GenerateContent() {
       if (contentType === "twitter") {
         promptText +=
           " Provide a thread of 5 tweets, each under 280 characters,also add some emoji.";
+      }
+      if (contentType === "youtube") {
+        promptText = `
+      Create a detailed, engaging, and roleplay-style YouTube script. The script should:
+      - Be based on the user's input: "${prompt}".
+      - Include characters, dialogues, scene descriptions, and actions.
+      - Have an introduction, a middle with suspense and drama, and a satisfying conclusion.
+      - Be immersive and entertaining for viewers.
+    `;
+        console.log(promptText);
       }
 
       let imagePart: Part | null = null;
